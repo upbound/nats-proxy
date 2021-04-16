@@ -1,0 +1,32 @@
+// protoc --proto_path=pkg/proxy --go_out=pkg/proxy/ --go_opt=paths=source_relative pkg/proxy/http.proto
+syntax = "proto3";
+option optimize_for = SPEED;
+option go_package = "github.com/upbound/nats-proxy/pkg/proxy";
+
+message TransportInfo {
+    int32 Sequence = 1;
+    bool KeepAlive = 2;
+    bool Closing = 3;
+}
+
+message Values {
+	repeated string arr = 1;
+}
+
+message Request {
+  TransportInfo transportInfo = 1;
+  string URL = 2;
+  string Method = 3;
+  string RemoteAddr = 4;
+  bytes Body = 5;
+  map<string,Values> Form = 6;
+  map<string,Values> Header = 7;
+}
+
+message Response {
+  TransportInfo transportInfo = 1;
+  int32 StatusCode = 2;
+  map<string,Values> Header = 3;
+  bytes Body = 4;
+  bool DoUpgrade = 5;
+}
