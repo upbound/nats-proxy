@@ -62,7 +62,7 @@ func main() {
 	tr.e.Any("/*", tr.routeRequest())
 
 	bp := backendProxy{}
-	ag := natsproxy.NewAgent(nc, agentID, &bp, natsproxy.DefaultSubjectForAgentFunc, agentKeepAliveInterval)
+	ag := natsproxy.NewAgent(nc, agentID, &bp, natsproxy.DefaultSubjectForAgentFunc(agentID.String()), agentKeepAliveInterval)
 
 	err = ag.Listen()
 	if err != nil {

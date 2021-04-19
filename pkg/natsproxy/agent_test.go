@@ -172,7 +172,7 @@ func TestServeNewRequestExpectClose(t *testing.T) {
 
 	inbox := "random_inbox"
 	th := TestHandler{result: []byte("baz")}
-	a := NewAgent(nc, agentID, th, DefaultSubjectForAgentFunc, time.Second)
+	a := NewAgent(nc, agentID, th, DefaultSubjectForAgentFunc(agentID.String()), time.Second)
 
 	pxyHandler := func(m *nats.Msg) {
 		response := Response{}
@@ -215,7 +215,7 @@ func TestServeNewRequestCancelFromProxy(t *testing.T) {
 
 	inbox := "random_inbox"
 	nr := NeverResponderHandler{done: make(chan bool)}
-	a := NewAgent(nc, agentID, nr, DefaultSubjectForAgentFunc, time.Second)
+	a := NewAgent(nc, agentID, nr, DefaultSubjectForAgentFunc(agentID.String()), time.Second)
 
 	reqs := []*Request{
 		{TransportInfo: &TransportInfo{Sequence: 0}},

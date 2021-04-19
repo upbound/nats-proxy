@@ -17,12 +17,12 @@ import (
 // NewAgent will connect to nats in main cluster and proxy connections locally
 // to an http.Handler.
 // TODO: add reasonable defaults for keepAliveInterval
-func NewAgent(nc *nats.Conn, id uuid.UUID, handler http.Handler, subjectFn SubjectForAgentFunc, keepAliveInterval time.Duration) *Agent {
+func NewAgent(nc *nats.Conn, id uuid.UUID, handler http.Handler, subject string, keepAliveInterval time.Duration) *Agent {
 	return &Agent{
 		nc:          nc,
 		id:          id,
 		handler:     handler,
-		subjectFunc: subjectFn,
+		natsSubject: subject,
 		transports: transportManager{
 			nc:                nc,
 			mux:               sync.Mutex{},
@@ -39,13 +39,13 @@ type Agent struct {
 	handler      http.Handler
 	transports   transportManager
 	subscription *nats.Subscription
-	subjectFunc  SubjectForAgentFunc
+	natsSubject  string
 }
 
 // Listen initiates nats queue subscription for the agent.
 func (a *Agent) Listen() error {
 	if a.subscription == nil {
-		sub, err := a.nc.QueueSubscribe(a.subjectFunc(a.id.String()), emptyQ, a.recv)
+		sub, err := a.nc.QueueSubscribe(a.natsSubject, emptyQ, a.recv)
 		if err != nil {
 			return err
 		}

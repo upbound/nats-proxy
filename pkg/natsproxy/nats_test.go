@@ -34,7 +34,7 @@ func TestE2EFlow(t *testing.T) {
 	resData := []byte("zap")
 
 	// 1. Listen on an agent.
-	agent := NewAgent(nc, agentID, &TestHandler{result: resData}, DefaultSubjectForAgentFunc, time.Second*5)
+	agent := NewAgent(nc, agentID, &TestHandler{result: resData}, DefaultSubjectForAgentFunc(agentID.String()), time.Second*5)
 	err := agent.Listen()
 	defer agent.Drain()
 	g.Expect(err).To(BeNil())
