@@ -77,7 +77,9 @@ func (a *Agent) serveNewRequest(reply string, request *Request) {
 		return
 	}
 
-	logrus.Debugf("Agent.serveNewRequest request for %s, host: %s, headers: %+v", req.URL.String(), req.URL.Host, req.Header)
+	lh := req.Header.Clone()
+	lh.Set("Authorization", "[REDACTED]")
+	logrus.Debugf("Agent.serveNewRequest request for %s, host: %s, headers: %+v", req.URL.String(), req.URL.Host, lh)
 	a.handler.ServeHTTP(rw, req)
 }
 
