@@ -317,7 +317,7 @@ func (rw *ResponseWriter) Flush() {
 	// TODO: we could easily enable flush, but it's assumed that
 	// nats has sane buffering, so we'll test with this as a noop
 	// while we have both the legacy http proxy enabled beside nats.
-	logrus.Debug("ResponseWriter.Flush() - NOOP - TODO: disable flush when migration done")
+	logrus.Debug("ResponseWriter.Flush() - NOOP")
 }
 
 type keepAlive struct {
