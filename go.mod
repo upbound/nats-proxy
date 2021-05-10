@@ -3,6 +3,7 @@ module github.com/upbound/nats-proxy
 go 1.16
 
 require (
+	github.com/google/addlicense v0.0.0-20210428195630-6d92264d7170
 	github.com/google/uuid v1.1.2
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/labstack/echo/v4 v4.1.17
