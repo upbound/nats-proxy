@@ -246,7 +246,7 @@ func (t *Tunnel) recv(m *nats.Msg) {
 		t.done <- true
 	}
 	t.mux.Lock()
-	if response.TransportInfo.Sequence != t.sequence {
+	if response.TransportInfo == nil || response.TransportInfo.Sequence != t.sequence {
 		logrus.Errorf("Tunnel.recv unexpected sequence; expect %d, received %d", t.sequence, response.TransportInfo.Sequence)
 		t.mux.Unlock()
 		t.done <- true
