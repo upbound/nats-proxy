@@ -242,7 +242,7 @@ func (t *Tunnel) recv(m *nats.Msg) {
 	response := &Response{}
 	err := proto.Unmarshal(m.Data, response)
 	if err != nil {
-		logrus.Errorf("Tunnel.recv unmarshall err %s", err)
+		logrus.Errorf("Tunnel.recv unmarshal err %s", err)
 		t.done <- true
 	}
 	t.mux.Lock()
