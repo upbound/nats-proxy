@@ -200,7 +200,10 @@ func TestServeNewRequestExpectClose(t *testing.T) {
 	}
 
 	nc.Subscribe(inbox, pxyHandler)
-	req := &Request{TransportInfo: &TransportInfo{Sequence: 0}}
+	req := &Request{
+		Header:        make(map[string]*Values),
+		TransportInfo: &TransportInfo{Sequence: 0},
+	}
 	a.transports.init(inbox)
 	go a.serveNewRequest(inbox, req)
 
@@ -232,8 +235,14 @@ func TestServeNewRequestCancelFromProxy(t *testing.T) {
 	a := NewAgent(nc, agentID, nr, DefaultSubjectForAgentFunc(agentID.String()), time.Second)
 
 	reqs := []*Request{
-		{TransportInfo: &TransportInfo{Sequence: 0}},
-		{TransportInfo: &TransportInfo{Sequence: 1, Closing: true}},
+		{
+			Header:        make(map[string]*Values),
+			TransportInfo: &TransportInfo{Sequence: 0},
+		},
+		{
+			Header:        make(map[string]*Values),
+			TransportInfo: &TransportInfo{Sequence: 1, Closing: true},
+		},
 	}
 
 	for _, req := range reqs {
