@@ -92,8 +92,13 @@ func (a *Agent) serveNewRequest(reply string, request *Request) {
 	}
 
 	lh := req.Header.Clone()
-	lh.Set("Authorization", "[REDACTED]")
-	lh.Set("Cookie", "[REDACTED]")
+	// Sanitize logs
+	if lh.Get("Authorization") != "" {
+		lh.Set("Authorization", "[REDACTED]")
+	}
+	if lh.Get("Cookie") != "" {
+		lh.Set("Cookie", "[REDACTED]")
+	}
 	logrus.Debugf("Agent.serveNewRequest request for %s, host: %s, headers: %+v", req.URL.String(), req.URL.Host, lh)
 	a.handler.ServeHTTP(rw, req)
 }

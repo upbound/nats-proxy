@@ -65,7 +65,8 @@ func TestAgentResponseBroker(t *testing.T) {
 			args: args{
 				response: []*Response{
 					{
-						Header: SerializeMap(map[string][]string{"Content-Length": {"0"}}),
+						Header:     SerializeMap(map[string][]string{"Content-Length": {"0"}}),
+						StatusCode: http.StatusOK,
 					},
 				},
 			},
@@ -78,8 +79,9 @@ func TestAgentResponseBroker(t *testing.T) {
 			args: args{
 				response: []*Response{
 					{
-						Header: SerializeMap(map[string][]string{"Content-Length": {"5"}}),
-						Body:   []byte("12345"),
+						Header:     SerializeMap(map[string][]string{"Content-Length": {"5"}}),
+						Body:       []byte("12345"),
+						StatusCode: http.StatusOK,
 					},
 				},
 			},
